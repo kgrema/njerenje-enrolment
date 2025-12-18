@@ -39,6 +39,8 @@ services:
         value: njerenje
       - key: DB_USER
         value: postgres
+        key: POSTGRES_PASSWORD
+        value: @njerenje2025
       - key: DB_PASSWORD
         fromService:
           name: njerenje-db
