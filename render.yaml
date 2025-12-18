@@ -3,7 +3,7 @@ services:
   - type: postgres
     name: njerenje-db
     databaseName: njerenje
-    plan: free  # Free tier has 1GB storage
+    plan: free
     ipAllowList:
       - source: 0.0.0.0/0
         description: everywhere
@@ -12,13 +12,12 @@ services:
   - type: web
     name: njerenje-api
     env: php
-    region: oregon  # or choose nearest to Mozambique
+    region: frankfurt
     plan: free
     buildCommand: |
-      echo "Installing dependencies..."
       composer install --no-dev --optimize-autoloader
-      echo "Creating uploads directory..."
-      mkdir -p uploads && chmod 755 uploads
+      mkdir -p uploads
+      chmod 755 uploads
     startCommand: php -S 0.0.0.0:$PORT -t backend/public
     healthCheckPath: /health.php
     envVars:
@@ -40,14 +39,8 @@ services:
     name: njerenje-website
     env: static
     plan: free
-    buildCommand: |
-      echo "Configuring frontend..."
-      # Update API endpoint in index.html
-      sed -i 's|https://njerenje-api.onrender.com|https://njerenje-api.onrender.com|g' frontend/index.html
     staticPublishPath: ./frontend
     routes:
       - type: rewrite
         source: /*
         destination: /index.html
-    }
-}
