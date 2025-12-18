@@ -1,10 +1,8 @@
-# Use the official PostgreSQL image
 FROM postgres:15-alpine
 
-# These environment variables MUST be set for the container to initialize
+# These environment variables MUST be set for the container to initialize 
 ENV POSTGRES_DB=${POSTGRES_DB}
-ENV POSTGRES_PASSWORD=${POSTGRES_PASSWORD} # 👈 This line is CRITICAL
+ENV POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
 
 # The database initialization scripts will run automatically
-# Expose the PostgreSQL port
 EXPOSE 5432
