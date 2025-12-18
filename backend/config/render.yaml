@@ -1,0 +1,73 @@
+# Save as backend/config/render.yaml
+services:
+  # Database Service (MySQL on Render)
+  - type: pserv  # Private Service (Database)
+    name: njerenje-db
+    env: docker
+    plan: starter  # Free tier
+    dockerfilePath: ./Dockerfile.mysql
+    envVars:
+      - key: MYSQL_DATABASE
+        value: njerenje_db
+      - key: MYSQL_ROOT_PASSWORD
+        generateValue: true
+    disk:
+      name: data
+      mountPath: /var/lib/mysql
+      sizeGB: 1
+
+  # PHP Backend API
+  - type: web
+    name: njerenje-api
+    env: php
+    plan: free
+    buildCommand: |
+      echo "Installing dependencies..."
+      composer install --no-dev --optimize-autoloader
+      echo "Setting up uploads directory..."
+      mkdir -p uploads
+      chmod 755 uploads
+    startCommand: php -S 0.0.0.0:$PORT -t public
+    healthCheckPath: /health.php
+    envVars:
+      - key: DB_HOST
+        fromService:
+          name: njerenje-db
+          type: pserv
+          property: host
+      - key: DB_PORT
+        fromService:
+          name: njerenje-db
+          type: pserv
+          property: port
+      - key: DB_NAME
+        value: njerenje_db
+      - key: DB_USERNAME
+        value: root
+      - key: DB_PASSWORD
+        fromService:
+          name: njerenje-db
+          type: pserv
+          property: password
+      - key: JWT_SECRET
+        generateValue: true
+      - key: APP_URL
+        value: https://njerenje-api.onrender.com
+    disk:
+      name: uploads
+      mountPath: /opt/render/project/src/uploads
+      sizeGB: 1
+
+  # Static Frontend (your HTML form)
+  - type: web
+    name: njerenje-frontend
+    env: static
+    plan: free
+    buildCommand: |
+      echo "Preparing frontend..."
+      # We'll create this file in next step
+    staticPublishPath: ./
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html

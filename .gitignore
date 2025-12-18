@@ -1,0 +1,7 @@
+.DS_Store 
+.env 
+*.log 
+backend/vendor/ 
+backend/uploads/ 
+node_modules/ 
+__pycache__/ 

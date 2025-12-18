@@ -1,0 +1,12 @@
+# Save as backend/Dockerfile.mysql
+FROM mysql:8.0
+
+# Copy initialization scripts
+COPY database/ /docker-entrypoint-initdb.d/
+
+# Set environment variables
+ENV MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+ENV MYSQL_DATABASE=njerenje_db
+
+# Expose MySQL port
+EXPOSE 3306

@@ -1,0 +1,2367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Centro Educacional Njerenje – Matrícula / Enrollment</title>
+    <style>
+		
+		.dashboard-stats {
+			display: flex;
+			gap: 20px;
+			margin: 20px 0;
+		}
+		.stat-card {
+			background: white;
+			padding: 20px;
+			border-radius: 10px;
+			box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+			flex: 1;
+			text-align: center;
+		}
+		.stat-card h3 {
+			color: #4a5568;
+			font-size: 14px;
+			margin-bottom: 10px;
+		}
+		.stat-card p {
+			color: #2c5282;
+			font-size: 24px;
+			font-weight: bold;
+		}
+		.admin-actions {
+			display: flex;
+			gap: 10px;
+			margin: 20px 0;
+		}
+        * { 
+            box-sizing: border-box; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            margin: 0;
+            padding: 0;
+        }
+        
+        body { 
+            background-color: #f8f9fa; 
+            color: #333; 
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Language Selection */
+        .language-selection {
+            text-align: center;
+            margin: 0 auto 30px;
+            padding: 30px 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            max-width: 600px;
+        }
+        
+        .logo-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .school-logo {
+            max-width: 120px;
+            height: auto;
+            margin-bottom: 15px;
+        }
+        
+        .languages {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px 0;
+            padding: 0;
+            flex-wrap: wrap;
+        }
+        
+        .nav-item {
+            margin: 0;
+        }
+        
+        .nav-item a {
+            display: inline-block;
+            padding: 12px 30px;
+            background: white;
+            border: 2px solid #2c5282;
+            border-radius: 5px;
+            color: #2c5282;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 16px;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .nav-item a:hover {
+            background: #2c5282;
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .nav-item a.active {
+            background: #2c5282;
+            color: white;
+            border-color: #2c5282;
+        }
+        
+        /* Form Styles */
+        .form-container { 
+            display: none; 
+        }
+        
+        .form-container.active { 
+            display: block; 
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .form-step {
+            background: white;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            display: none;
+        }
+        
+        .form-step.active {
+            display: block;
+        }
+        
+        .step-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background: #2c5282;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 15px;
+        }
+        
+        .step-title {
+            color: #2c5282;
+            margin: 0;
+        }
+        
+        h1, h2 { 
+            color: #2c5282; 
+            border-bottom: 2px solid #e2e8f0; 
+            padding-bottom: 10px; 
+        }
+        
+        .form-row { 
+            display: flex; 
+            gap: 20px; 
+            margin-top: 15px; 
+        }
+        
+        .form-row > div { 
+            flex: 1; 
+        }
+        
+        label { 
+            display: block; 
+            margin-top: 15px; 
+            font-weight: 600; 
+            color: #4a5568; 
+        }
+        
+        .required::after { 
+            content: " *"; 
+            color: #e53e3e; 
+        }
+        
+        input[type="text"], 
+        input[type="date"], 
+        input[type="email"], 
+        input[type="tel"], 
+        input[type="number"], 
+        select, 
+        textarea {
+            width: 100%; 
+            padding: 10px; 
+            margin-top: 5px; 
+            border: 1px solid #cbd5e0; 
+            border-radius: 5px; 
+            font-size: 16px;
+        }
+        
+        .error {
+            border-color: #e53e3e !important;
+        }
+        
+        .error-message {
+            color: #e53e3e;
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        button, .submit-btn { 
+            background: #2c5282; 
+            color: white; 
+            padding: 15px 30px; 
+            border: none; 
+            border-radius: 5px; 
+            font-size: 18px; 
+            cursor: pointer; 
+            margin-top: 20px;
+            transition: background 0.3s; 
+        }
+        
+        button:hover { 
+            background: #2b6cb0; 
+        }
+        
+        .declaration-box { 
+            background: #f7fafc; 
+            padding: 15px; 
+            border-left: 4px solid #2c5282; 
+            margin: 15px 0; 
+            font-size: 0.95em; 
+        }
+        
+        .file-upload-wrapper { 
+            margin: 20px 0; 
+        }
+        
+        .file-input-custom { 
+            padding: 10px; 
+            border: 2px dashed #cbd5e0; 
+            border-radius: 5px; 
+            text-align: center; 
+            cursor: pointer; 
+            margin-top: 5px;
+            background: #f8fafc;
+            width: 100%;
+            display: block;
+        }
+        
+        .file-name-preview {
+            font-size: 14px;
+            color: #4a5568;
+            margin-top: 5px;
+        }
+        
+        .file-size-warning {
+            color: #d69e2e;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+        
+        /* Progress Bar */
+        .progress-bar {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        .progress-bar::before {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #e2e8f0;
+            z-index: 1;
+        }
+        
+        .progress-step {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            flex: 1;
+        }
+        
+        .step-circle {
+            width: 30px;
+            height: 30px;
+            background: #e2e8f0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+            color: #718096;
+            font-weight: bold;
+        }
+        
+        .progress-step.active .step-circle {
+            background: #2c5282;
+            color: white;
+        }
+        
+        .step-label {
+            font-size: 12px;
+            color: #718096;
+        }
+        
+        .progress-step.active .step-label {
+            color: #2c5282;
+            font-weight: 600;
+        }
+        
+        /* Navigation Buttons */
+        .form-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        
+        .btn-prev, .btn-next {
+            padding: 12px 25px;
+            width: auto;
+            margin-top: 0;
+        }
+        
+        .btn-prev {
+            background: #718096;
+        }
+        
+        .btn-prev:hover {
+            background: #4a5568;
+        }
+        
+        /* Loading Animation */
+        .loading {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        
+        .spinner {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #2c5282;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) { 
+            .container {
+                padding: 10px;
+            }
+            
+            .form-step {
+                padding: 15px;
+                margin-bottom: 15px;
+            }
+            
+            .form-row { 
+                flex-direction: column; 
+                gap: 0; 
+            }
+            
+            .languages {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+            
+            .nav-item a {
+                width: 200px;
+                text-align: center;
+            }
+            
+            .progress-bar {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Language Selection -->
+    <div class="container">
+        <div class="language-selection" id="language-selection">
+            <div class="logo-container">
+                <img src="image.png" 
+                     alt="Centro Educacional Njerenje Logo" 
+                     class="school-logo">
+                <h1 style="border: none; color: #2c5282;">Centro Educacional Njerenje</h1>
+                <h2 style="color: #4a5568; border: none; font-size: 18px;">A Cambridge International School</h2>
+            </div>
+			
+			<div id="admin-dashboard" style="display: none;">
+    <h2>Admin Dashboard</h2>-- Save this as backend/database/schema.sql
+CREATE TABLE IF NOT EXISTS users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
+    role ENUM('admin', 'staff') DEFAULT 'staff',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    last_login TIMESTAMP NULL
+);
+
+CREATE TABLE IF NOT EXISTS enrollments (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    enrollment_number VARCHAR(20) UNIQUE NOT NULL,
+    language ENUM('en', 'pt') NOT NULL,
+    
+    -- Student details
+    surname VARCHAR(100) NOT NULL,
+    forenames VARCHAR(100) NOT NULL,
+    dob DATE NOT NULL,
+    gender ENUM('male', 'female') NOT NULL,
+    nationality VARCHAR(100) NOT NULL,
+    passport_number VARCHAR(50) NOT NULL,
+    home_language VARCHAR(100) NOT NULL,
+    english_level VARCHAR(50) NOT NULL,
+    
+    -- Parent/Guardian info
+    guardian_name VARCHAR(200) NOT NULL,
+    guardian_relationship VARCHAR(100) NOT NULL,
+    address TEXT NOT NULL,
+    mother_name VARCHAR(100),
+    mother_mobile VARCHAR(20),
+    mother_email VARCHAR(100),
+    father_name VARCHAR(100),
+    father_mobile VARCHAR(20),
+    father_email VARCHAR(100),
+    emergency_name VARCHAR(100) NOT NULL,
+    emergency_relationship VARCHAR(100) NOT NULL,
+    emergency_mobile1 VARCHAR(20) NOT NULL,
+    emergency_mobile2 VARCHAR(20),
+    
+    -- Academic info
+    academic_stage VARCHAR(50) NOT NULL,
+    grade VARCHAR(50) NOT NULL,
+    subjects_interests TEXT,
+    
+    -- Medical info
+    medical_condition ENUM('yes', 'no') DEFAULT 'no',
+    medical_details TEXT,
+    medications TEXT,
+    immunization ENUM('yes', 'no'),
+    doctor_name VARCHAR(100),
+    doctor_contact VARCHAR(50),
+    
+    -- File paths
+    birth_certificate_path VARCHAR(255),
+    passport_copy_path VARCHAR(255),
+    photo_path VARCHAR(255),
+    school_report_path VARCHAR(255),
+    immunization_card_path VARCHAR(255),
+    payment_proof_path VARCHAR(255),
+    sen_report_path VARCHAR(255),
+    transfer_certificate_path VARCHAR(255),
+    
+    -- Metadata
+    parent_signature VARCHAR(200) NOT NULL,
+    parent_declaration_date DATE NOT NULL,
+    status ENUM('pending', 'approved', 'rejected') DEFAULT 'pending',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+    
+    <div class="dashboard-stats">
+        <div class="stat-card">
+            <h3>Total Enrollments</h3>
+            <p id="total-enrollments">0</p>
+        </div>
+        <div class="stat-card">
+            <h3>Pending Review</h3>
+            <p id="pending-enrollments">0</p>
+        </div>
+        <div class="stat-card">
+            <h3>Countries</h3>
+            <p id="total-countries">0</p>
+        </div>
+    </div>
+    
+    <div class="admin-actions">
+        <button onclick="loadEnrollments()">View All Enrollments</button>
+        <button onclick="generateReport('summary')">Generate Summary Report</button>
+        <button onclick="exportData()">Export Data (CSV)</button>
+    </div>
+    
+    <div id="admin-content">
+        <!-- Dynamic content will load here -->
+    </div>
+</div>
+            
+            <p>Chiremera, Chimoio, Manica, Moçambique</p>
+            <hr style="margin: 20px auto; width: 80px; border: 2px solid #2c5282;">
+            
+            <h3>Please Select Your Preferred Language</h3>
+            <p style="margin-bottom: 10px;">Selecione o seu idioma preferido</p>
+            
+            <div>
+                <ul class="languages">
+                    <li class="nav-item"><a href="#english" onclick="selectLanguage('en'); return false;">English</a></li>
+                    <li class="nav-item"><a href="#português" onclick="selectLanguage('pt'); return false;">Português</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- English Form -->
+    <div id="en-form-container" class="form-container">
+        <div class="container">
+            <header style="background: white; padding: 25px; border-radius: 10px; margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; margin-bottom: 15px;">
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <img src="image.png" alt="Logo" style="border-radius: 5px;">
+                        <div>
+                            <h1 style="border: none; color: #2c5282; margin: 0; font-size: 28px;">Centro Educacional Njerenje</h1>
+                            <h2 style="color: #4a5568; border: none; margin: 0; font-size: 16px;">A Cambridge International School</h2>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <ul class="languages" style="margin: 0; gap: 10px;">
+                            <li class="nav-item"><a href="#english" onclick="switchLanguage('en'); return false;">English</a></li>
+                            <li class="nav-item"><a href="#português" onclick="switchLanguage('pt'); return false;">Português</a></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <hr>
+                <h2>STUDENT ENROLLMENT FORM</h2>
+                <p><em>(To be completed by the Parent/Legal Guardian for confirmed placement)</em></p>
+            </header>
+
+            <!-- Progress Bar -->
+            <div class="progress-bar">
+                <div class="progress-step active" data-step="1">
+                    <div class="step-circle">1</div>
+                    <div class="step-label">Student Details</div>
+                </div>
+                <div class="progress-step" data-step="2">
+                    <div class="step-circle">2</div>
+                    <div class="step-label">Parent/Guardian Info</div>
+                </div>
+                <div class="progress-step" data-step="3">
+                    <div class="step-circle">3</div>
+                    <div class="step-label">Academic & Medical</div>
+                </div>
+                <div class="progress-step" data-step="4">
+                    <div class="step-circle">4</div>
+                    <div class="step-label">Documents</div>
+                </div>
+            </div>
+
+            <form id="enrollmentForm" enctype="multipart/form-data">
+                <!-- STEP 1: Student Details -->
+                <div class="form-step active" id="step-1">
+                    <div class="step-header">
+                        <div class="step-number">1</div>
+                        <h2 class="step-title">Student Details</h2>
+                    </div>
+
+                    <div class="form-row">
+                        <div>
+                            <label class="required">Surname</label>
+                            <input type="text" name="surname" required data-validate="text">
+                            <div class="error-message" id="surname-error"></div>
+                        </div>
+                        <div>
+                            <label class="required">Forename(s)</label>
+                            <input type="text" name="forenames" required data-validate="text">
+                            <div class="error-message" id="forenames-error"></div>
+                        </div>	
+                    </div>
+                    
+                    <div class="form-row">
+                        <div>
+                            <label class="required">Date of Birth</label>
+                            <input type="date" id="dob" name="dob" required data-validate="date">
+                            <div class="error-message" id="dob-error"></div>
+                        </div>
+                        <div>
+                            <label class="required">Gender</label>
+                            <select name="gender" required>
+                                <option value="">Select</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                            </select>
+                            <div class="error-message" id="gender-error"></div>
+                        </div>
+                        <!--<div>
+                            <label>Age</label>
+                            <div class="result" id="age-display"></div>
+                        </div> -->
+                    </div>
+                    
+                    <div class="form-row">
+                        <div>
+                            <label class="required">Nationality</label>
+                            <!--<input type="text" name="nationality" required data-validate="text">
+                            <div class="error-message" id="nationality-error"></div>-->
+							<select class="form-select" autocomplete="country" id="country" name="nationality">
+								<option>select country</option>
+								<option value="AF">Afghanistan</option>
+								<option value="AX">Åland Islands</option>
+								<option value="AL">Albania</option>
+								<option value="DZ">Algeria</option>
+								<option value="AS">American Samoa</option>
+								<option value="AD">Andorra</option>
+								<option value="AO">Angola</option>
+								<option value="AI">Anguilla</option>
+								<option value="AQ">Antarctica</option>
+								<option value="AG">Antigua and Barbuda</option>
+								<option value="AR">Argentina</option>
+								<option value="AM">Armenia</option>
+								<option value="AW">Aruba</option>
+								<option value="AU">Australia</option>
+								<option value="AT">Austria</option>
+								<option value="AZ">Azerbaijan</option>
+								<option value="BS">Bahamas</option>
+								<option value="BH">Bahrain</option>
+								<option value="BD">Bangladesh</option>
+								<option value="BB">Barbados</option>
+								<option value="BY">Belarus</option>
+								<option value="BE">Belgium</option>
+								<option value="BZ">Belize</option>
+								<option value="BJ">Benin</option>
+								<option value="BM">Bermuda</option>
+								<option value="BT">Bhutan</option>
+								<option value="BO">Bolivia (Plurinational State of)</option>
+								<option value="BA">Bosnia and Herzegovina</option>
+								<option value="BW">Botswana</option>
+								<option value="BV">Bouvet Island</option>
+								<option value="BR">Brazil</option>
+								<option value="IO">British Indian Ocean Territory</option>
+								<option value="BN">Brunei Darussalam</option>
+								<option value="BG">Bulgaria</option>
+								<option value="BF">Burkina Faso</option>
+								<option value="BI">Burundi</option>
+								<option value="CV">Cabo Verde</option>
+								<option value="KH">Cambodia</option>
+								<option value="CM">Cameroon</option>
+								<option value="CA">Canada</option>
+								<option value="BQ">Caribbean Netherlands</option>
+								<option value="KY">Cayman Islands</option>
+								<option value="CF">Central African Republic</option>
+								<option value="TD">Chad</option>
+								<option value="CL">Chile</option>
+								<option value="CN">China</option>
+								<option value="CX">Christmas Island</option>
+								<option value="CC">Cocos (Keeling) Islands</option>
+								<option value="CO">Colombia</option>
+								<option value="KM">Comoros</option>
+								<option value="CG">Congo</option>
+								<option value="CD">Congo, Democratic Republic of the</option>
+								<option value="CK">Cook Islands</option>
+								<option value="CR">Costa Rica</option>
+								<option value="HR">Croatia</option>
+								<option value="CU">Cuba</option>
+								<option value="CW">Curaçao</option>
+								<option value="CY">Cyprus</option>
+								<option value="CZ">Czech Republic</option>
+								<option value="CI">Côte d'Ivoire</option>
+								<option value="DK">Denmark</option>
+								<option value="DJ">Djibouti</option>
+								<option value="DM">Dominica</option>
+								<option value="DO">Dominican Republic</option>
+								<option value="EC">Ecuador</option>
+								<option value="EG">Egypt</option>
+								<option value="SV">El Salvador</option>
+								<option value="GQ">Equatorial Guinea</option>
+								<option value="ER">Eritrea</option>
+								<option value="EE">Estonia</option>
+								<option value="SZ">Eswatini (Swaziland)</option>
+								<option value="ET">Ethiopia</option>
+								<option value="FK">Falkland Islands (Malvinas)</option>
+								<option value="FO">Faroe Islands</option>
+								<option value="FJ">Fiji</option>
+								<option value="FI">Finland</option>
+								<option value="FR">France</option>
+								<option value="GF">French Guiana</option>
+								<option value="PF">French Polynesia</option>
+								<option value="TF">French Southern Territories</option>
+								<option value="GA">Gabon</option>
+								<option value="GM">Gambia</option>
+								<option value="GE">Georgia</option>
+								<option value="DE">Germany</option>
+								<option value="GH">Ghana</option>
+								<option value="GI">Gibraltar</option>
+								<option value="GR">Greece</option>
+								<option value="GL">Greenland</option>
+								<option value="GD">Grenada</option>
+								<option value="GP">Guadeloupe</option>
+								<option value="GU">Guam</option>
+								<option value="GT">Guatemala</option>
+								<option value="GG">Guernsey</option>
+								<option value="GN">Guinea</option>
+								<option value="GW">Guinea-Bissau</option>
+								<option value="GY">Guyana</option>
+								<option value="HT">Haiti</option>
+								<option value="HM">Heard Island and Mcdonald Islands</option>
+								<option value="HN">Honduras</option>
+								<option value="HK">Hong Kong</option>
+								<option value="HU">Hungary</option>
+								<option value="IS">Iceland</option>
+								<option value="IN">India</option>
+								<option value="ID">Indonesia</option>
+								<option value="IR">Iran</option>
+								<option value="IQ">Iraq</option>
+								<option value="IE">Ireland</option>
+								<option value="IM">Isle of Man</option>
+								<option value="IL">Israel</option>
+								<option value="IT">Italy</option>
+								<option value="JM">Jamaica</option>
+								<option value="JP">Japan</option>
+								<option value="JE">Jersey</option>
+								<option value="JO">Jordan</option>
+								<option value="KZ">Kazakhstan</option>
+								<option value="KE">Kenya</option>
+								<option value="KI">Kiribati</option>
+								<option value="KP">Korea, North</option>
+								<option value="KR">Korea, South</option>
+								<option value="XK">Kosovo</option>
+								<option value="KW">Kuwait</option>
+								<option value="KG">Kyrgyzstan</option>
+								<option value="LA">Lao People's Democratic Republic</option>
+								<option value="LV">Latvia</option>
+								<option value="LB">Lebanon</option>
+								<option value="LS">Lesotho</option>
+								<option value="LR">Liberia</option>
+								<option value="LY">Libya</option>
+								<option value="LI">Liechtenstein</option>
+								<option value="LT">Lithuania</option>
+								<option value="LU">Luxembourg</option>
+								<option value="MO">Macao</option>
+								<option value="MK">Macedonia North</option>
+								<option value="MG">Madagascar</option>
+								<option value="MW">Malawi</option>
+								<option value="MY">Malaysia</option>
+								<option value="MV">Maldives</option>
+								<option value="ML">Mali</option>
+								<option value="MT">Malta</option>
+								<option value="MH">Marshall Islands</option>
+								<option value="MQ">Martinique</option>
+								<option value="MR">Mauritania</option>
+								<option value="MU">Mauritius</option>
+								<option value="YT">Mayotte</option>
+								<option value="MX">Mexico</option>
+								<option value="FM">Micronesia</option>
+								<option value="MD">Moldova</option>
+								<option value="MC">Monaco</option>
+								<option value="MN">Mongolia</option>
+								<option value="ME">Montenegro</option>
+								<option value="MS">Montserrat</option>
+								<option value="MA">Morocco</option>
+								<option value="MZ">Mozambique</option>
+								<option value="MM">Myanmar (Burma)</option>
+								<option value="NA">Namibia</option>
+								<option value="NR">Nauru</option>
+								<option value="NP">Nepal</option>
+								<option value="NL">Netherlands</option>
+								<option value="AN">Netherlands Antilles</option>
+								<option value="NC">New Caledonia</option>
+								<option value="NZ">New Zealand</option>
+								<option value="NI">Nicaragua</option>
+								<option value="NE">Niger</option>
+								<option value="NG">Nigeria</option>
+								<option value="NU">Niue</option>
+								<option value="NF">Norfolk Island</option>
+								<option value="MP">Northern Mariana Islands</option>
+								<option value="NO">Norway</option>
+								<option value="OM">Oman</option>
+								<option value="PK">Pakistan</option>
+								<option value="PW">Palau</option>
+								<option value="PS">Palestine</option>
+								<option value="PA">Panama</option>
+								<option value="PG">Papua New Guinea</option>
+								<option value="PY">Paraguay</option>
+								<option value="PE">Peru</option>
+								<option value="PH">Philippines</option>
+								<option value="PN">Pitcairn Islands</option>
+								<option value="PL">Poland</option>
+								<option value="PT">Portugal</option>
+								<option value="PR">Puerto Rico</option>
+								<option value="QA">Qatar</option>
+								<option value="RE">Reunion</option>
+								<option value="RO">Romania</option>
+								<option value="RU">Russian Federation</option>
+								<option value="RW">Rwanda</option>
+								<option value="BL">Saint Barthelemy</option>
+								<option value="SH">Saint Helena</option>
+								<option value="KN">Saint Kitts and Nevis</option>
+								<option value="LC">Saint Lucia</option>
+								<option value="MF">Saint Martin</option>
+								<option value="PM">Saint Pierre and Miquelon</option>
+								<option value="VC">Saint Vincent and the Grenadines</option>
+								<option value="WS">Samoa</option>
+								<option value="SM">San Marino</option>
+								<option value="ST">Sao Tome and Principe</option>
+								<option value="SA">Saudi Arabia</option>
+								<option value="SN">Senegal</option>
+								<option value="RS">Serbia</option>
+								<option value="CS">Serbia and Montenegro</option>
+								<option value="SC">Seychelles</option>
+								<option value="SL">Sierra Leone</option>
+								<option value="SG">Singapore</option>
+								<option value="SX">Sint Maarten</option>
+								<option value="SK">Slovakia</option>
+								<option value="SI">Slovenia</option>
+								<option value="SB">Solomon Islands</option>
+								<option value="SO">Somalia</option>
+								<option value="ZA">South Africa</option>
+								<option value="GS">South Georgia and the South Sandwich Islands</option>
+								<option value="SS">South Sudan</option>
+								<option value="ES">Spain</option>
+								<option value="LK">Sri Lanka</option>
+								<option value="SD">Sudan</option>
+								<option value="SR">Suriname</option>
+								<option value="SJ">Svalbard and Jan Mayen</option>
+								<option value="SE">Sweden</option>
+								<option value="CH">Switzerland</option>
+								<option value="SY">Syria</option>
+								<option value="TW">Taiwan</option>
+								<option value="TJ">Tajikistan</option>
+								<option value="TZ">Tanzania</option>
+								<option value="TH">Thailand</option>
+								<option value="TL">Timor-Leste</option>
+								<option value="TG">Togo</option>
+								<option value="TK">Tokelau</option>
+								<option value="TO">Tonga</option>
+								<option value="TT">Trinidad and Tobago</option>
+								<option value="TN">Tunisia</option>
+								<option value="TR">Turkey (Türkiye)</option>
+								<option value="TM">Turkmenistan</option>
+								<option value="TC">Turks and Caicos Islands</option>
+								<option value="TV">Tuvalu</option>
+								<option value="UM">U.S. Outlying Islands</option>
+								<option value="UG">Uganda</option>
+								<option value="UA">Ukraine</option>
+								<option value="AE">United Arab Emirates</option>
+								<option value="GB">United Kingdom</option>
+								<option value="US">United States</option>
+								<option value="UY">Uruguay</option>
+								<option value="UZ">Uzbekistan</option>
+								<option value="VU">Vanuatu</option>
+								<option value="VA">Vatican City Holy See</option>
+								<option value="VE">Venezuela</option>
+								<option value="VN">Vietnam</option>
+								<option value="VG">Virgin Islands, British</option>
+								<option value="VI">Virgin Islands, U.S</option>
+								<option value="WF">Wallis and Futuna</option>
+								<option value="EH">Western Sahara</option>
+								<option value="YE">Yemen</option>
+								<option value="ZM">Zambia</option>
+								<option value="ZW">Zimbabwe</option>
+							</select>
+                        </div>
+                        <div>
+                            <label class="required">Passport Number</label>
+                            <input type="text" name="passport" required placeholder="Required for Cambridge exams">
+                            <div class="error-message" id="passport-error"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div>
+                            <label class="required">Home Language(s)</label>
+                            <input type="text" name="home_language" required>
+                            <div class="error-message" id="home_language-error"></div>
+                        </div>
+                        <div>
+                            <label class="required">English Proficiency Level</label>
+                            <select name="english_level" required>
+                                <option value="">Select</option>
+                                <option value="beginner">Beginner</option>
+                                <option value="intermediate">Intermediate</option>
+                                <option value="advanced">Advanced</option>
+                                <option value="fluent">Fluent</option>
+                            </select>
+                            <div class="error-message" id="english_level-error"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-navigation">
+                        <div></div>
+                        <button type="button" class="btn-next" onclick="nextStep(2)">Next: Parent/Guardian Info →</button>
+                    </div>
+                </div>
+
+                <!-- STEP 2: Parent/Guardian Information -->
+                <div class="form-step" id="step-2">
+                    <div class="step-header">
+                        <div class="step-number">2</div>
+                        <h2 class="step-title">Parent/Guardian Information</h2>
+                    </div>
+
+                    <div class="form-row">
+                        <div>
+                            <label class="required">Parent/Legal Guardian Full Name</label>
+                            <input type="text" name="guardian_name" required>
+                            <div class="error-message" id="guardian_name-error"></div>
+                        </div>
+                        <div>
+                            <label class="required">Relationship to Student</label>
+                            <input type="text" name="guardian_relationship" required>
+                            <div class="error-message" id="guardian_relationship-error"></div>
+                        </div>
+                    </div>
+                    
+                    <label class="required">Residential Address</label>
+                    <textarea name="address" rows="3" required></textarea>
+                    <div class="error-message" id="address-error"></div>
+
+                    <h3 style="margin-top: 20px;">Contact Details</h3>
+                    
+                    <div class="form-row">
+                        <div>
+                            <label>Mother/Guardian 1 Name</label>
+                            <input type="text" name="mother_name">
+                            <label>Mobile</label>
+                            <input type="tel" name="mother_mobile" data-validate="phone">
+                            <div class="error-message" id="mother_mobile-error"></div>
+                            <label>Email</label>
+                            <input type="email" name="mother_email" data-validate="email">
+                            <div class="error-message" id="mother_email-error"></div>
+                        </div>
+                        <div>
+                            <label>Father/Guardian 2 Name</label>
+                            <input type="text" name="father_name">
+                            <label>Mobile</label>
+                            <input type="tel" name="father_mobile" data-validate="phone">
+                            <div class="error-message" id="father_mobile-error"></div>
+                            <label>Email</label>
+                            <input type="email" name="father_email" data-validate="email">
+                            <div class="error-message" id="father_email-error"></div>
+                        </div>
+                    </div>
+
+                    <h3>Emergency Contact (Other than parents)</h3>
+                    <div class="form-row">
+                        <div>
+                            <label class="required">Name</label>
+                            <input type="text" name="emergency_name" required>
+                            <div class="error-message" id="emergency_name-error"></div>
+                        </div>
+                        <div>
+                            <label class="required">Relationship</label>
+                            <input type="text" name="emergency_relationship" required>
+                            <div class="error-message" id="emergency_relationship-error"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div>
+                            <label class="required">Mobile 1</label>
+                            <input type="tel" name="emergency_mobile1" required data-validate="phone">
+                            <div class="error-message" id="emergency_mobile1-error"></div>
+                        </div>
+                        <div>
+                            <label>Mobile 2</label>
+                            <input type="tel" name="emergency_mobile2" data-validate="phone">
+                            <div class="error-message" id="emergency_mobile2-error"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-navigation">
+                        <button type="button" class="btn-prev" onclick="prevStep(1)">← Previous</button>
+                        <button type="button" class="btn-next" onclick="nextStep(3)">Next: Academic & Medical →</button>
+                    </div>
+                </div>
+
+                <!-- STEP 3: Academic & Medical Information -->
+                <div class="form-step" id="step-3">
+                    <div class="step-header">
+                        <div class="step-number">3</div>
+                        <h2 class="step-title">Academic & Medical Information</h2>
+                    </div>
+
+                    <!-- Academic Placement -->
+                    <h3>Academic Information</h3>
+                    <div class="form-row">
+                        <div>
+                            <label class="required">Confirmed Academic Placement</label>
+                            <select id="academic-stage-en" name="academic_stage" required onchange="updateGradeDropdown('en')">
+                                <option value="">-- Select Stage --</option>
+								<option value="Kindergarten">Kindergarten</option>
+                                <option value="Cambridge Primary">Cambridge Primary</option>
+                                <option value="Cambridge Lower Secondary">Cambridge Lower Secondary</option>
+                                <option value="Cambridge IGCSE">Cambridge IGCSE</option>
+                                <option value="Cambridge AS/A Level">Cambridge AS/A Level</option>
+                            </select>
+                            <div class="error-message" id="academic_stage-error"></div>
+                        </div>
+                        <div>
+                            <div id="grade-container-en" class="grade-dropdown-container">
+                                <label class="required">Confirmed Grade</label>
+                                <select id="grade-dropdown-en" name="grade" required>
+                                    <option value="">-- Please select stage first --</option>
+                                </select>
+                                <div class="error-message" id="grade-error"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label>Cambridge Subjects of Interest (for IGCSE & A Level)</label>
+                        <textarea name="subjects_interests" rows="2" placeholder="e.g., Mathematics, Physics, Geography..."></textarea>
+                    </div>
+
+                    <!-- Medical Information -->
+                    <h3 style="margin-top: 30px;">Medical Information</h3>
+                    
+                    <label>Does the student have any known medical conditions, allergies, or disabilities?</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="medical_condition" value="yes" onclick="toggleMedDetails('en')"> Yes</label>
+                        <label><input type="radio" name="medical_condition" value="no" onclick="toggleMedDetails('en')" checked> No</label>
+                    </div>
+                    
+                    <div id="med-details-en" style="display:none;">
+                        <label>If Yes, please provide details:</label>
+                        <textarea name="medical_details" rows="3"></textarea>
+                    </div>
+
+                    <label>List all current medications:</label>
+                    <textarea name="medications" rows="2"></textarea>
+
+                    <label>Immunization Record:</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="immunization" value="yes"> Up to date? Yes</label>
+                        <label><input type="radio" name="immunization" value="no"> No</label>
+                    </div>
+
+                    <div class="form-row">
+                        <div>
+                            <label>Doctor/Clinic Name</label>
+                            <input type="text" name="doctor_name">
+                        </div>
+                        <div>
+                            <label>Contact</label>
+                            <input type="text" name="doctor_contact">
+                        </div>
+                    </div>
+
+                    <div class="form-navigation">
+                        <button type="button" class="btn-prev" onclick="prevStep(2)">← Previous</button>
+                        <button type="button" class="btn-next" onclick="nextStep(4)">Next: Documents →</button>
+                    </div>
+                </div>
+
+                <!-- STEP 4: Documents -->
+                <div class="form-step" id="step-4">
+                    <div class="step-header">
+                        <div class="step-number">4</div>
+                        <h2 class="step-title">Documents & Submission</h2>
+                    </div>
+
+                    <p><strong>CHECKLIST OF REQUIRED DOCUMENTS (Please attach copies)</strong></p>
+                    <p class="file-size-warning">Maximum file size: 200KB per file. Total upload limit: 1MB</p>
+                    
+                    <div class="file-upload-wrapper">
+                        <label><strong>Birth Certificate</strong> <span style="color: #e53e3e;">*</span></label>
+                        <input type="file" name="birth_certificate" accept=".pdf,.jpg,.jpeg,.png" 
+                               data-max-size="200" required onchange="compressAndPreview(this, 'birth-cert')">
+                        <div class="file-name-preview" id="birth-cert-preview"></div>
+                        <div class="error-message" id="birth_certificate-error"></div>
+                    </div>
+
+                    <div class="file-upload-wrapper">
+                        <label><strong>Passport Bio-data Page</strong> <span style="color: #e53e3e;">*</span></label>
+                        <input type="file" name="passport_copy" accept=".pdf,.jpg,.jpeg,.png" 
+                               data-max-size="200" required onchange="compressAndPreview(this, 'passport')">
+                        <div class="file-name-preview" id="passport-preview"></div>
+                        <div class="error-message" id="passport_copy-error"></div>
+                    </div>
+
+                    <div class="file-upload-wrapper">
+                        <label><strong>Recent Passport-size Photograph</strong> <span style="color: #e53e3e;">*</span></label>
+                        <input type="file" name="photo" accept=".jpg,.jpeg,.png" 
+                               data-max-size="150" required onchange="compressAndPreview(this, 'photo')">
+                        <div class="file-name-preview" id="photo-preview"></div>
+                        <div class="error-message" id="photo-error"></div>
+                    </div>
+
+                    <div class="file-upload-wrapper">
+                        <label><strong>Previous School Report (Most recent)</strong> <span style="color: #e53e3e;">*</span></label>
+                        <input type="file" name="school_report" accept=".pdf,.jpg,.jpeg,.png" 
+                               data-max-size="200" required onchange="compressAndPreview(this, 'report')">
+                        <div class="file-name-preview" id="report-preview"></div>
+                        <div class="error-message" id="school_report-error"></div>
+                    </div>
+
+                    <div class="file-upload-wrapper">
+                        <label><strong>Immunization Record</strong> <span style="color: #e53e3e;">*</span></label>
+                        <input type="file" name="immunization_card" accept=".pdf,.jpg,.jpeg,.png" 
+                               data-max-size="200" required onchange="compressAndPreview(this, 'immunization')">
+                        <div class="file-name-preview" id="immunization-preview"></div>
+                        <div class="error-message" id="immunization_card-error"></div>
+                    </div>
+
+                    <div class="file-upload-wrapper">
+                        <label><strong>Proof of Fee Transfer / Bank Receipt</strong> <span style="color: #e53e3e;">*</span></label>
+                        <input type="file" name="payment_proof" accept=".pdf,.jpg,.jpeg,.png" 
+                               data-max-size="200" required onchange="compressAndPreview(this, 'payment')">
+                        <div class="file-name-preview" id="payment-preview"></div>
+                        <div class="error-message" id="payment_proof-error"></div>
+                    </div>
+
+                    <!-- Optional Documents -->
+                    <div style="margin-top: 30px;">
+                        <p><strong>Optional Documents (if applicable)</strong></p>
+                        
+                        <div class="file-upload-wrapper">
+                            <label>SEN/Medical Reports</label>
+                            <input type="file" name="sen_report" accept=".pdf,.jpg,.jpeg,.png" 
+                                   data-max-size="200" onchange="compressAndPreview(this, 'sen')">
+                            <div class="file-name-preview" id="sen-preview"></div>
+                        </div>
+
+                        <div class="file-upload-wrapper">
+                            <label>Transfer/Leaving Certificate</label>
+                            <input type="file" name="transfer_certificate" accept=".pdf,.jpg,.jpeg,.png" 
+                                   data-max-size="200" onchange="compressAndPreview(this, 'transfer')">
+                            <div class="file-name-preview" id="transfer-preview"></div>
+                        </div>
+                    </div>
+
+                    <!-- Terms & Conditions -->
+                    <div class="declaration-box">
+                        <p><strong>Declaration</strong></p>
+                        <p>I hereby declare that all information provided in this application is true and complete.</p>
+                        <p>I understand and agree to abide by the school's policies and procedures.</p>
+                        
+                        <div class="form-row" style="margin-top: 15px;">
+                            <div>
+                                <label class="required">Signature of Parent/Guardian</label>
+                                <input type="text" name="parent_signature" placeholder="Type full name" required>
+                                <div class="error-message" id="parent_signature-error"></div>
+                            </div>
+                            <div>
+                                <label class="required">Date</label>
+                                <input type="date" name="parent_declaration_date" required>
+                                <div class="error-message" id="parent_declaration_date-error"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-navigation">
+                        <button type="button" class="btn-prev" onclick="prevStep(3)">← Previous</button>
+                        <button type="submit" class="submit-btn">Submit Enrollment</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Portuguese Form (Similar Structure) -->
+    <div id="pt-form-container" class="form-container">
+        
+		<div class="container">
+            <!-- Portuguese form with same structure but translated -->
+            <!-- For brevity, showing just the header -->
+            <header style="background: white; padding: 25px; border-radius: 10px; margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; margin-bottom: 15px;">
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <img src="image.png" alt="Logo" style="border-radius: 5px;">
+                        <div>
+                            <h1 style="border: none; color: #2c5282; margin: 0; font-size: 28px;">Centro Educacional Njerenje</h1>
+                            <h2 style="color: #4a5568; border: none; margin: 0; font-size: 16px;">Escola Internacional Cambridge</h2>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <ul class="languages" style="margin: 0; gap: 10px;">
+                            <li class="nav-item"><a href="#english" onclick="switchLanguage('en'); return false;">English</a></li>
+                            <li class="nav-item"><a href="#português" onclick="switchLanguage('pt'); return false;">Português</a></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <hr>
+                <h2>FORMULÁRIO DE MATRÍCULA DO ESTUDANTE</h2>
+                <p><em>(A preencher pelo Encarregado de Educação para matrícula confirmada)</em></p>
+            </header>
+
+            <!-- Portuguese form would have same steps but in Portuguese -->
+            <!-- Complete Portuguese form would be here -->
+			 <!-- Progress Bar -->
+            <div class="progress-bar">
+                <div class="progress-step active" data-step="1">
+                    <div class="step-circle">1</div>
+                    <div class="step-label">Dados do Aluno</div>
+                </div>
+                <div class="progress-step" data-step="2">
+                    <div class="step-circle">2</div>
+                    <div class="step-label">Info do Pai/Encarregado</div>
+                </div>
+                <div class="progress-step" data-step="3">
+                    <div class="step-circle">3</div>
+                    <div class="step-label">Acadêmico & Médico</div>
+                </div>
+                <div class="progress-step" data-step="4">
+                    <div class="step-circle">4</div>
+                    <div class="step-label">Documentos</div>
+                </div>
+            </div>
+
+            <form id="enrollmentForm" enctype="multipart/form-data">
+                <!-- STEP 1: Student Details -->
+                <div class="form-step active" id="step-1">
+                    <div class="step-header">
+                        <div class="step-number">1</div>
+                        <h2 class="step-title">Dados do Aluno</h2>
+                    </div>
+
+                    <div class="form-row">
+                        <div>
+                            <label class="required">Apelido</label>
+                            <input type="text" name="surname" required data-validate="text">
+                            <div class="error-message" id="surname-error"></div>
+                        </div>
+                        <div>
+                            <label class="required">Nome(s)</label>
+                            <input type="text" name="forenames" required data-validate="text">
+                            <div class="error-message" id="forenames-error"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div>
+                            <label class="required">Data de Nascimento</label>
+                            <input type="date" id="ddn" name="ddn" required data-validate="date">
+                            <div class="error-message" id="ddn-error"></div>
+                        </div>
+                        <div>
+                            <label class="required">Genero</label>
+                            <select name="gender" required>
+                                <option value="">Selecione</option>
+                                <option value="male">Masculino</option>
+                                <option value="female">Feminino</option>
+                            </select>
+                            <div class="error-message" id="gender-error"></div>
+                        </div>
+                        <!--<div>
+                            <label>Age</label>
+                            <div class="result" id="age-display"></div>
+                        </div>-->
+                    </div>
+                    
+                    <div class="form-row">
+                        <div>
+                            <label class="required">Nationalidade</label>
+                            <!--<input type="text" name="nationality" required data-validate="text">
+                            <div class="error-message" id="nationality-error"></div>-->
+							<!-- All countries -->
+							<!-- Code and Name -->
+							<select class="form-select" autocomplete="country" id="country" name="country">
+								<option>selecione o pais</option>
+								<option value="AF">Afghanistan</option>
+								<option value="AX">Åland Islands</option>
+								<option value="AL">Albania</option>
+								<option value="DZ">Algeria</option>
+								<option value="AS">American Samoa</option>
+								<option value="AD">Andorra</option>
+								<option value="AO">Angola</option>
+								<option value="AI">Anguilla</option>
+								<option value="AQ">Antarctica</option>
+								<option value="AG">Antigua and Barbuda</option>
+								<option value="AR">Argentina</option>
+								<option value="AM">Armenia</option>
+								<option value="AW">Aruba</option>
+								<option value="AU">Australia</option>
+								<option value="AT">Austria</option>
+								<option value="AZ">Azerbaijan</option>
+								<option value="BS">Bahamas</option>
+								<option value="BH">Bahrain</option>
+								<option value="BD">Bangladesh</option>
+								<option value="BB">Barbados</option>
+								<option value="BY">Belarus</option>
+								<option value="BE">Belgium</option>
+								<option value="BZ">Belize</option>
+								<option value="BJ">Benin</option>
+								<option value="BM">Bermuda</option>
+								<option value="BT">Bhutan</option>
+								<option value="BO">Bolivia (Plurinational State of)</option>
+								<option value="BA">Bosnia and Herzegovina</option>
+								<option value="BW">Botswana</option>
+								<option value="BV">Bouvet Island</option>
+								<option value="BR">Brazil</option>
+								<option value="IO">British Indian Ocean Territory</option>
+								<option value="BN">Brunei Darussalam</option>
+								<option value="BG">Bulgaria</option>
+								<option value="BF">Burkina Faso</option>
+								<option value="BI">Burundi</option>
+								<option value="CV">Cabo Verde</option>
+								<option value="KH">Cambodia</option>
+								<option value="CM">Cameroon</option>
+								<option value="CA">Canada</option>
+								<option value="BQ">Caribbean Netherlands</option>
+								<option value="KY">Cayman Islands</option>
+								<option value="CF">Central African Republic</option>
+								<option value="TD">Chad</option>
+								<option value="CL">Chile</option>
+								<option value="CN">China</option>
+								<option value="CX">Christmas Island</option>
+								<option value="CC">Cocos (Keeling) Islands</option>
+								<option value="CO">Colombia</option>
+								<option value="KM">Comoros</option>
+								<option value="CG">Congo</option>
+								<option value="CD">Congo, Democratic Republic of the</option>
+								<option value="CK">Cook Islands</option>
+								<option value="CR">Costa Rica</option>
+								<option value="HR">Croatia</option>
+								<option value="CU">Cuba</option>
+								<option value="CW">Curaçao</option>
+								<option value="CY">Cyprus</option>
+								<option value="CZ">Czech Republic</option>
+								<option value="CI">Côte d'Ivoire</option>
+								<option value="DK">Denmark</option>
+								<option value="DJ">Djibouti</option>
+								<option value="DM">Dominica</option>
+								<option value="DO">Dominican Republic</option>
+								<option value="EC">Ecuador</option>
+								<option value="EG">Egypt</option>
+								<option value="SV">El Salvador</option>
+								<option value="GQ">Equatorial Guinea</option>
+								<option value="ER">Eritrea</option>
+								<option value="EE">Estonia</option>
+								<option value="SZ">Eswatini (Swaziland)</option>
+								<option value="ET">Ethiopia</option>
+								<option value="FK">Falkland Islands (Malvinas)</option>
+								<option value="FO">Faroe Islands</option>
+								<option value="FJ">Fiji</option>
+								<option value="FI">Finland</option>
+								<option value="FR">France</option>
+								<option value="GF">French Guiana</option>
+								<option value="PF">French Polynesia</option>
+								<option value="TF">French Southern Territories</option>
+								<option value="GA">Gabon</option>
+								<option value="GM">Gambia</option>
+								<option value="GE">Georgia</option>
+								<option value="DE">Germany</option>
+								<option value="GH">Ghana</option>
+								<option value="GI">Gibraltar</option>
+								<option value="GR">Greece</option>
+								<option value="GL">Greenland</option>
+								<option value="GD">Grenada</option>
+								<option value="GP">Guadeloupe</option>
+								<option value="GU">Guam</option>
+								<option value="GT">Guatemala</option>
+								<option value="GG">Guernsey</option>
+								<option value="GN">Guinea</option>
+								<option value="GW">Guinea-Bissau</option>
+								<option value="GY">Guyana</option>
+								<option value="HT">Haiti</option>
+								<option value="HM">Heard Island and Mcdonald Islands</option>
+								<option value="HN">Honduras</option>
+								<option value="HK">Hong Kong</option>
+								<option value="HU">Hungary</option>
+								<option value="IS">Iceland</option>
+								<option value="IN">India</option>
+								<option value="ID">Indonesia</option>
+								<option value="IR">Iran</option>
+								<option value="IQ">Iraq</option>
+								<option value="IE">Ireland</option>
+								<option value="IM">Isle of Man</option>
+								<option value="IL">Israel</option>
+								<option value="IT">Italy</option>
+								<option value="JM">Jamaica</option>
+								<option value="JP">Japan</option>
+								<option value="JE">Jersey</option>
+								<option value="JO">Jordan</option>
+								<option value="KZ">Kazakhstan</option>
+								<option value="KE">Kenya</option>
+								<option value="KI">Kiribati</option>
+								<option value="KP">Korea, North</option>
+								<option value="KR">Korea, South</option>
+								<option value="XK">Kosovo</option>
+								<option value="KW">Kuwait</option>
+								<option value="KG">Kyrgyzstan</option>
+								<option value="LA">Lao People's Democratic Republic</option>
+								<option value="LV">Latvia</option>
+								<option value="LB">Lebanon</option>
+								<option value="LS">Lesotho</option>
+								<option value="LR">Liberia</option>
+								<option value="LY">Libya</option>
+								<option value="LI">Liechtenstein</option>
+								<option value="LT">Lithuania</option>
+								<option value="LU">Luxembourg</option>
+								<option value="MO">Macao</option>
+								<option value="MK">Macedonia North</option>
+								<option value="MG">Madagascar</option>
+								<option value="MW">Malawi</option>
+								<option value="MY">Malaysia</option>
+								<option value="MV">Maldives</option>
+								<option value="ML">Mali</option>
+								<option value="MT">Malta</option>
+								<option value="MH">Marshall Islands</option>
+								<option value="MQ">Martinique</option>
+								<option value="MR">Mauritania</option>
+								<option value="MU">Mauritius</option>
+								<option value="YT">Mayotte</option>
+								<option value="MX">Mexico</option>
+								<option value="FM">Micronesia</option>
+								<option value="MD">Moldova</option>
+								<option value="MC">Monaco</option>
+								<option value="MN">Mongolia</option>
+								<option value="ME">Montenegro</option>
+								<option value="MS">Montserrat</option>
+								<option value="MA">Morocco</option>
+								<option value="MZ">Mozambique</option>
+								<option value="MM">Myanmar (Burma)</option>
+								<option value="NA">Namibia</option>
+								<option value="NR">Nauru</option>
+								<option value="NP">Nepal</option>
+								<option value="NL">Netherlands</option>
+								<option value="AN">Netherlands Antilles</option>
+								<option value="NC">New Caledonia</option>
+								<option value="NZ">New Zealand</option>
+								<option value="NI">Nicaragua</option>
+								<option value="NE">Niger</option>
+								<option value="NG">Nigeria</option>
+								<option value="NU">Niue</option>
+								<option value="NF">Norfolk Island</option>
+								<option value="MP">Northern Mariana Islands</option>
+								<option value="NO">Norway</option>
+								<option value="OM">Oman</option>
+								<option value="PK">Pakistan</option>
+								<option value="PW">Palau</option>
+								<option value="PS">Palestine</option>
+								<option value="PA">Panama</option>
+								<option value="PG">Papua New Guinea</option>
+								<option value="PY">Paraguay</option>
+								<option value="PE">Peru</option>
+								<option value="PH">Philippines</option>
+								<option value="PN">Pitcairn Islands</option>
+								<option value="PL">Poland</option>
+								<option value="PT">Portugal</option>
+								<option value="PR">Puerto Rico</option>
+								<option value="QA">Qatar</option>
+								<option value="RE">Reunion</option>
+								<option value="RO">Romania</option>
+								<option value="RU">Russian Federation</option>
+								<option value="RW">Rwanda</option>
+								<option value="BL">Saint Barthelemy</option>
+								<option value="SH">Saint Helena</option>
+								<option value="KN">Saint Kitts and Nevis</option>
+								<option value="LC">Saint Lucia</option>
+								<option value="MF">Saint Martin</option>
+								<option value="PM">Saint Pierre and Miquelon</option>
+								<option value="VC">Saint Vincent and the Grenadines</option>
+								<option value="WS">Samoa</option>
+								<option value="SM">San Marino</option>
+								<option value="ST">Sao Tome and Principe</option>
+								<option value="SA">Saudi Arabia</option>
+								<option value="SN">Senegal</option>
+								<option value="RS">Serbia</option>
+								<option value="CS">Serbia and Montenegro</option>
+								<option value="SC">Seychelles</option>
+								<option value="SL">Sierra Leone</option>
+								<option value="SG">Singapore</option>
+								<option value="SX">Sint Maarten</option>
+								<option value="SK">Slovakia</option>
+								<option value="SI">Slovenia</option>
+								<option value="SB">Solomon Islands</option>
+								<option value="SO">Somalia</option>
+								<option value="ZA">South Africa</option>
+								<option value="GS">South Georgia and the South Sandwich Islands</option>
+								<option value="SS">South Sudan</option>
+								<option value="ES">Spain</option>
+								<option value="LK">Sri Lanka</option>
+								<option value="SD">Sudan</option>
+								<option value="SR">Suriname</option>
+								<option value="SJ">Svalbard and Jan Mayen</option>
+								<option value="SE">Sweden</option>
+								<option value="CH">Switzerland</option>
+								<option value="SY">Syria</option>
+								<option value="TW">Taiwan</option>
+								<option value="TJ">Tajikistan</option>
+								<option value="TZ">Tanzania</option>
+								<option value="TH">Thailand</option>
+								<option value="TL">Timor-Leste</option>
+								<option value="TG">Togo</option>
+								<option value="TK">Tokelau</option>
+								<option value="TO">Tonga</option>
+								<option value="TT">Trinidad and Tobago</option>
+								<option value="TN">Tunisia</option>
+								<option value="TR">Turkey (Türkiye)</option>
+								<option value="TM">Turkmenistan</option>
+								<option value="TC">Turks and Caicos Islands</option>
+								<option value="TV">Tuvalu</option>
+								<option value="UM">U.S. Outlying Islands</option>
+								<option value="UG">Uganda</option>
+								<option value="UA">Ukraine</option>
+								<option value="AE">United Arab Emirates</option>
+								<option value="GB">United Kingdom</option>
+								<option value="US">United States</option>
+								<option value="UY">Uruguay</option>
+								<option value="UZ">Uzbekistan</option>
+								<option value="VU">Vanuatu</option>
+								<option value="VA">Vatican City Holy See</option>
+								<option value="VE">Venezuela</option>
+								<option value="VN">Vietnam</option>
+								<option value="VG">Virgin Islands, British</option>
+								<option value="VI">Virgin Islands, U.S</option>
+								<option value="WF">Wallis and Futuna</option>
+								<option value="EH">Western Sahara</option>
+								<option value="YE">Yemen</option>
+								<option value="ZM">Zambia</option>
+								<option value="ZW">Zimbabwe</option>
+							</select>
+<!-- total - 252 -->
+                        </div>
+                        <div>
+                            <label class="required">Número de BI ou Passaporte</label>
+                            <input type="text" name="passport" required placeholder="Required for Cambridge exams">
+                            <div class="error-message" id="passport-error"></div>
+                        </div>
+					</div>
+                    
+                    <div class="form-row">
+                        <div>
+                            <label class="required">Língua materna</label>
+                            <input type="text" name="home_language" required>
+                            <div class="error-message" id="home_language-error"></div>
+                        </div>
+                        <div>
+                            <label class="required">Proficiência em Ingês</label>
+                            <select name="english_level" required>
+                                <option value="">Selecione</option>
+                                <option value="beginner">Iniciante</option>
+                                <option value="intermediate">Intermêdio</option>
+                                <option value="advanced">Avançada</option>
+                                <option value="fluent">Fluente</option>
+                            </select>
+                            <div class="error-message" id="english_level-error"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-navigation">
+                        <div></div>
+                        <button type="button" class="btn-next" onclick="nextStep(2)">Seguinte: Info do Pai/Engarregado→</button>
+                    </div>
+                </div>
+
+                <!-- STEP 2: Parent/Guardian Information -->
+                <div class="form-step" id="step-2">
+                    <div class="step-header">
+                        <div class="step-number">2</div>
+                        <h2 class="step-title">Info do Pai/Encarregado</h2>
+                    </div>
+
+                    <div class="form-row">
+                        <div>
+                            <label class="required">Nome Completo do Pai/Ecarregado Legal</label>
+                            <input type="text" name="guardian_name" required>
+                            <div class="error-message" id="guardian_name-error"></div>
+                        </div>
+                        <div>
+                            <label class="required">Relacionamento com Aluno(a)</label>
+                            <input type="text" name="guardian_relationship" required>
+                            <div class="error-message" id="guardian_relationship-error"></div>
+                        </div>
+                    </div>
+                    
+                    <label class="required">Endereço</label>
+                    <textarea name="address" rows="3" required></textarea>
+                    <div class="error-message" id="address-error"></div>
+
+                    <h3 style="margin-top: 20px;">Contacto</h3>
+                    
+                    <div class="form-row">
+                        <div>
+                            <label>Mãe/Encarregada 1 Nome</label>
+                            <input type="text" name="mother_name">
+                            <label>Celular</label>
+                            <input type="tel" name="mother_mobile" data-validate="phone">
+                            <div class="error-message" id="mother_mobile-error"></div>
+                            <label>Email</label>
+                            <input type="email" name="mother_email" data-validate="email">
+                            <div class="error-message" id="mother_email-error"></div>
+                        </div>
+                        <div>
+                            <label>Pai/Encarregado 2 Nome</label>
+                            <input type="text" name="father_name">
+                            <label>Celular</label>
+                            <input type="tel" name="father_mobile" data-validate="phone">
+                            <div class="error-message" id="father_mobile-error"></div>
+                            <label>Email</label>
+                            <input type="email" name="father_email" data-validate="email">
+                            <div class="error-message" id="father_email-error"></div>
+                        </div>
+                    </div>
+
+                    <h3>Contato de emergência (que não seja os pais)</h3>
+                    <div class="form-row">
+                        <div>
+                            <label class="required">Nome</label>
+                            <input type="text" name="emergency_name" required>
+                            <div class="error-message" id="emergency_name-error"></div>
+                        </div>
+                        <div>
+                            <label class="required">Relação</label>
+                            <input type="text" name="emergency_relationship" required>
+                            <div class="error-message" id="emergency_relationship-error"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div>
+                            <label class="required">Contacto 1</label>
+                            <input type="tel" name="emergency_mobile1" required data-validate="phone">
+                            <div class="error-message" id="emergency_mobile1-error"></div>
+                        </div>
+                        <div>
+                            <label>Contacto 2</label>
+                            <input type="tel" name="emergency_mobile2" data-validate="phone">
+                            <div class="error-message" id="emergency_mobile2-error"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-navigation">
+                        <button type="button" class="btn-prev" onclick="prevStep(1)">← Anterior</button>
+                        <button type="button" class="btn-next" onclick="nextStep(3)">Seguinte: Acadêmico & Médico →</button>
+                    </div>
+                </div>
+
+                <!-- STEP 3: Academic & Medical Information -->
+                <div class="form-step" id="step-3">
+                    <div class="step-header">
+                        <div class="step-number">3</div>
+                        <h2 class="step-title">Informações Acadêmicas & Mêdicas</h2>
+                    </div>
+
+                    <!-- Academic Placement -->
+                    <h3>Informações Acadêmica</h3>
+                    <div class="form-row">
+                        <div>
+                            <label class="required">Colocação Acadêmic Confirmada</label>
+                            <select id="academic-stage-en" name="academic_stage" required onchange="updateGradeDropdown('en')">
+                                <option value="">-- Selecione o Estágio --</option>
+								<option value="Kindergarten">Kindergarten</option>
+                                <option value="Cambridge Primary">Cambridge Primary</option>
+                                <option value="Cambridge Lower Secondary">Cambridge Lower Secondary</option>
+                                <option value="Cambridge IGCSE">Cambridge IGCSE</option>
+                                <option value="Cambridge AS/A Level">Cambridge AS/A Level</option>
+                            </select>
+                            <div class="error-message" id="academic_stage-error"></div>
+                        </div>
+                        <div>
+                            <div id="grade-container-en" class="grade-dropdown-container">
+                                <label class="required">Classe Confirmado</label>
+                                <select id="grade-dropdown-en" name="grade" required>
+                                    <option value="">-- Selecione o Estágio Primeiro --</option>
+                                </select>
+                                <div class="error-message" id="grade-error"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label>Disciplinas de Cambridge de Interesse (Para IGCSE & A Level)</label>
+                        <textarea name="subjects_interests" rows="2" placeholder="e.g., Mathematics, Physics, Geography..."></textarea>
+                    </div>
+
+                    <!-- Medical Information -->
+                    <h3 style="margin-top: 30px;">Informação Médica</h3>
+                    
+                    <label>O aluno tem alguma condição médica conhecida, alergias ou deficiências?</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="medical_condition" value="yes" onclick="toggleMedDetails('en')"> Yes</label>
+                        <label><input type="radio" name="medical_condition" value="no" onclick="toggleMedDetails('en')" checked> No</label>
+                    </div>
+                    
+                    <div id="med-details-en" style="display:none;">
+                        <label>Se sim, por favor forneça detalhes:</label>
+                        <textarea name="medical_details" rows="3"></textarea>
+                    </div>
+
+                    <label>Liste todos os medicações atuais:</label>
+                    <textarea name="medications" rows="2"></textarea>
+
+                    <label>Registo de Vacinação:</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="immunization" value="yes"> Atualizado? Sim</label>
+                        <label><input type="radio" name="immunization" value="no"> Não</label>
+                    </div>
+
+                    <div class="form-row">
+                        <div>
+                            <label>Nome do Médico/Clínica</label>
+                            <input type="text" name="doctor_name">
+                        </div>
+                        <div>
+                            <label>Contacto</label>
+                            <input type="text" name="doctor_contact">
+                        </div>
+                    </div>
+
+                    <div class="form-navigation">
+                        <button type="button" class="btn-prev" onclick="prevStep(2)">← Anterior</button>
+                        <button type="button" class="btn-next" onclick="nextStep(4)">Seguinte: Documentos →</button>
+                    </div>
+                </div>
+
+                <!-- STEP 4: Documents -->
+                <div class="form-step" id="step-4">
+                    <div class="step-header">
+                        <div class="step-number">4</div>
+                        <h2 class="step-title">Documentos e Submissão</h2>
+                    </div>
+
+                    <p><strong>LISTA DE DOCUMENTOS OBRIGATÓRIOS (Por favor, anexe cópias)</strong></p>
+                    <p class="file-size-warning">Tamanho máximo do ficheiro: 200 KB por ficheiro. Limite total de upload: 1 MB</p>
+                    
+                    <div class="file-upload-wrapper">
+                        <label><strong>Certidão de Nascimento</strong> <span style="color: #e53e3e;">*</span></label>
+                        <input type="file" name="birth_certificate" accept=".pdf,.jpg,.jpeg,.png" 
+                               data-max-size="200" required onchange="compressAndPreview(this, 'birth-cert')">
+                        <div class="file-name-preview" id="birth-cert-preview"></div>
+                        <div class="error-message" id="birth_certificate-error"></div>
+                    </div>
+
+                    <div class="file-upload-wrapper">
+                        <label><strong>Página de Dados Biográficos do Passaporte</strong> <span style="color: #e53e3e;">*</span></label>
+                        <input type="file" name="passport_copy" accept=".pdf,.jpg,.jpeg,.png" 
+                               data-max-size="200" required onchange="compressAndPreview(this, 'passport')">
+                        <div class="file-name-preview" id="passport-preview"></div>
+                        <div class="error-message" id="passport_copy-error"></div>
+                    </div>
+
+                    <div class="file-upload-wrapper">
+                        <label><strong>Fotografia recente tipo passe</strong> <span style="color: #e53e3e;">*</span></label>
+                        <input type="file" name="photo" accept=".jpg,.jpeg,.png" 
+                               data-max-size="150" required onchange="compressAndPreview(this, 'photo')">
+                        <div class="file-name-preview" id="photo-preview"></div>
+                        <div class="error-message" id="photo-error"></div>
+                    </div>
+
+                    <div class="file-upload-wrapper">
+                        <label><strong>Relatório Escolar Anterior (Mais recente)</strong> <span style="color: #e53e3e;">*</span></label>
+                        <input type="file" name="school_report" accept=".pdf,.jpg,.jpeg,.png" 
+                               data-max-size="200" required onchange="compressAndPreview(this, 'report')">
+                        <div class="file-name-preview" id="report-preview"></div>
+                        <div class="error-message" id="school_report-error"></div>
+                    </div>
+
+                    <div class="file-upload-wrapper">
+                        <label><strong>Cartão de Vacinação</strong> <span style="color: #e53e3e;">*</span></label>
+                        <input type="file" name="immunization_card" accept=".pdf,.jpg,.jpeg,.png" 
+                               data-max-size="200" required onchange="compressAndPreview(this, 'immunization')">
+                        <div class="file-name-preview" id="immunization-preview"></div>
+                        <div class="error-message" id="immunization_card-error"></div>
+                    </div>
+
+                    <div class="file-upload-wrapper">
+                        <label><strong>Comprovativo de Transferência de Taxa / Recibo Bancário</strong> <span style="color: #e53e3e;">*</span></label>
+                        <input type="file" name="payment_proof" accept=".pdf,.jpg,.jpeg,.png" 
+                               data-max-size="200" required onchange="compressAndPreview(this, 'payment')">
+                        <div class="file-name-preview" id="payment-preview"></div>
+                        <div class="error-message" id="payment_proof-error"></div>
+                    </div>
+
+                    <!-- Optional Documents -->
+                    <div style="margin-top: 30px;">
+                        <p><strong>Documentos Opcionais (se aplicável)</strong></p>
+                        
+                        <div class="file-upload-wrapper">
+                            <label>Relatórios Médicos/SEN</label>
+                            <input type="file" name="sen_report" accept=".pdf,.jpg,.jpeg,.png" 
+                                   data-max-size="200" onchange="compressAndPreview(this, 'sen')">
+                            <div class="file-name-preview" id="sen-preview"></div>
+                        </div>
+
+                        <div class="file-upload-wrapper">
+                            <label>Certificado de Transferência/Conclusão</label>
+                            <input type="file" name="transfer_certificate" accept=".pdf,.jpg,.jpeg,.png" 
+                                   data-max-size="200" onchange="compressAndPreview(this, 'transfer')">
+                            <div class="file-name-preview" id="transfer-preview"></div>
+                        </div>
+                    </div>
+
+                    <!-- Terms & Conditions -->
+                    <div class="declaration-box">
+                        <p><strong>Declaração</strong></p>
+                        <p>Declaro, pelo presente, que todas as informações fornecidas nesta candidatura são verdadeiras e completas.</p>
+                        <p>Compreendo e concordo em cumprir as políticas e procedimentos da escola.</p>
+                        
+                        <div class="form-row" style="margin-top: 15px;">
+                            <div>
+                                <label class="required">Assinatura do Pai/Mãe ou Encarregado de Educação</label>
+                                <input type="text" name="parent_signature" placeholder="Type full name" required>
+                                <div class="error-message" id="parent_signature-error"></div>
+                            </div>
+                            <div>
+                                <label class="required">Data</label>
+                                <input type="date" name="parent_declaration_date" required>
+                                <div class="error-message" id="parent_declaration_date-error"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-navigation">
+                        <button type="button" class="btn-prev" onclick="prevStep(3)">← Anterior</button>
+                        <button type="submit" class="submit-btn">Enviar Inscrição</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading" id="loadingOverlay">
+        <div class="spinner"></div>
+        <p>Processing your enrollment...</p>
+    </div>
+
+    <script>
+	// Function to calculate age in years, months, and days
+	function calculateAge(dob) {
+    const today = new Date();
+    let years = today.getFullYear() - dob.getFullYear();
+    let months = today.getMonth() - dob.getMonth();
+    let days = today.getDate() - dob.getDate();
+
+    // Adjust if the current month/day is before the birth month/day
+    if (days < 0) {
+        months--;
+        const prevMonth = new Date(today.getFullYear(), today.getMonth(), 0);
+        days += prevMonth.getDate();
+    }
+    if (months < 0) {
+        years--;
+        months += 12;
+    }
+
+    return { years, months, days };
+}
+	
+
+// Event listener for when user tabs out or changes the date
+document.getElementById('dob').addEventListener('blur', function () {
+    const dobInput = this.value;
+    const errorDiv = document.getElementById('dob-error');
+    const ageDisplay = document.getElementById('age-display');
+
+    errorDiv.textContent = '';
+    ageDisplay.textContent = '';
+
+    if (!dobInput) {
+        errorDiv.textContent = 'Please select your date of birth.';
+        return;
+    }
+
+    const dob = new Date(dobInput);
+    const today = new Date();
+
+    // Validation: DOB cannot be in the future
+    if (dob > today) {
+        errorDiv.textContent = 'Date of birth cannot be in the future.';
+        return;
+    }
+
+    // Calculate and display age
+    const { years, months, days } = calculateAge(dob);
+    ageDisplay.textContent = `Age: ${years} years, ${months} months, ${days} days`;
+});
+        // Language selection
+        let currentLanguage = 'en';
+        let currentStep = 1;
+        const totalSteps = 4;
+        const compressedFiles = new Map();
+
+        function selectLanguage(lang) {
+            currentLanguage = lang;
+            document.getElementById('language-selection').style.display = 'none';
+            document.getElementById('en-form-container').classList.remove('active');
+            document.getElementById('pt-form-container').classList.remove('active');
+            
+            if (lang === 'en') {
+                document.getElementById('en-form-container').classList.add('active');
+            } else {
+                document.getElementById('pt-form-container').classList.add('active');
+            }
+            
+            resetForm();
+        }
+
+        function switchLanguage(lang) {
+            selectLanguage(lang);
+        }
+
+        function resetForm() {
+            currentStep = 1;
+            updateProgressBar();
+            showStep(1);
+            compressedFiles.clear();
+        }
+
+        function showStep(step) {
+            // Hide all steps
+            for (let i = 1; i <= totalSteps; i++) {
+                const stepElement = document.getElementById(`step-${i}`);
+                if (stepElement) {
+                    stepElement.classList.remove('active');
+                }
+            }
+            
+            // Show current step
+            const currentStepElement = document.getElementById(`step-${step}`);
+            if (currentStepElement) {
+                currentStepElement.classList.add('active');
+            }
+            
+            currentStep = step;
+            updateProgressBar();
+        }
+
+        function nextStep(next) {
+            if (validateStep(currentStep)) {
+                showStep(next);
+            }
+        }
+
+        function prevStep(prev) {
+            showStep(prev);
+        }
+
+        function updateProgressBar() {
+            const steps = document.querySelectorAll('.progress-step');
+            steps.forEach(step => {
+                const stepNum = parseInt(step.getAttribute('data-step'));
+                if (stepNum <= currentStep) {
+                    step.classList.add('active');
+                } else {
+                    step.classList.remove('active');
+                }
+            });
+        }
+
+        // Validation functions
+        function validateStep(step) {
+            let isValid = true;
+            const stepElement = document.getElementById(`step-${step}`);
+            
+            if (!stepElement) return true;
+            
+            // Get all required inputs in this step
+            const requiredInputs = stepElement.querySelectorAll('[required]');
+            
+            requiredInputs.forEach(input => {
+                const errorElement = document.getElementById(`${input.name}-error`);
+                
+                if (!input.value.trim()) {
+                    showError(input, 'This field is required');
+                    isValid = false;
+                } else {
+                    clearError(input);
+                    
+                    // Additional validation based on input type
+                    if (input.dataset.validate === 'email' && input.value) {
+                        if (!isValidEmail(input.value)) {
+                            showError(input, 'Please enter a valid email address');
+                            isValid = false;
+                        }
+                    }
+                    
+                    if (input.dataset.validate === 'phone' && input.value) {
+                        if (!isValidPhone(input.value)) {
+                            showError(input, 'Please enter a valid phone number');
+                            isValid = false;
+                        }
+                    }
+                    
+                    if (input.dataset.validate === 'date' && input.value) {
+                        if (!isValidDate(input.value)) {
+                            showError(input, 'Please enter a valid date');
+                            isValid = false;
+                        }
+                    }
+                    
+                    if (input.dataset.validate === 'age' && input.value) {
+                        const age = parseInt(input.value);
+                        if (age < 3 || age > 19) {
+                            showError(input, 'Age must be between 3 and 19');
+                            isValid = false;
+                        }
+                    }
+                }
+            });
+            
+            return isValid;
+        }
+
+        function showError(input, message) {
+            input.classList.add('error');
+            const errorElement = document.getElementById(`${input.name}-error`);
+            if (errorElement) {
+                errorElement.textContent = message;
+                errorElement.style.display = 'block';
+            }
+        }
+
+        function clearError(input) {
+            input.classList.remove('error');
+            const errorElement = document.getElementById(`${input.name}-error`);
+            if (errorElement) {
+                errorElement.style.display = 'none';
+            }
+        }
+
+        function isValidEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+
+        function isValidPhone(phone) {
+            const re = /^[\+]?[1-9][\d]{0,15}$/;
+            return re.test(phone.replace(/[\s\-\(\)\.]/g, ''));
+        }
+
+        function isValidDate(dateString) {
+            const date = new Date(dateString);
+            return date instanceof Date && !isNaN(date);
+        }
+
+        // File compression function
+        async function compressAndPreview(input, prefix) {
+            const file = input.files[0];
+            if (!file) return;
+            
+            const maxSize = parseInt(input.dataset.maxSize) * 1024; // Convert KB to bytes
+            const previewId = `${prefix}-preview`;
+            const errorId = `${input.name}-error`;
+            
+            // Clear previous errors
+            clearError(input);
+            
+            // Check file size
+            if (file.size > maxSize) {
+                if (file.type.startsWith('image/')) {
+                    // Compress image
+                    try {
+                        const compressedBlob = await compressImage(file, maxSize);
+                        compressedFiles.set(input.name, compressedBlob);
+                        
+                        // Update preview
+                        const previewElement = document.getElementById(previewId);
+                        if (previewElement) {
+                            const newSize = (compressedBlob.size / 1024).toFixed(2);
+                            previewElement.textContent = `${file.name} (compressed to ${newSize}KB)`;
+                            previewElement.style.color = '#10b981';
+                        }
+                    } catch (error) {
+                        showError(input, 'Failed to compress image. Please select a smaller file.');
+                        input.value = '';
+                    }
+                } else {
+                    showError(input, `File size must be less than ${input.dataset.maxSize}KB`);
+                    input.value = '';
+                }
+            } else {
+                // File is already within size limit
+                const previewElement = document.getElementById(previewId);
+                if (previewElement) {
+                    const fileSize = (file.size / 1024).toFixed(2);
+                    previewElement.textContent = `${file.name} (${fileSize}KB)`;
+                    previewElement.style.color = '#4a5568';
+                }
+                compressedFiles.delete(input.name);
+            }
+        }
+
+        async function compressImage(file, maxSize) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                
+                reader.onload = function(event) {
+                    const img = new Image();
+                    img.src = event.target.result;
+                    
+                    img.onload = function() {
+                        const canvas = document.createElement('canvas');
+                        const ctx = canvas.getContext('2d');
+                        
+                        // Calculate new dimensions (reduce by 50% each iteration)
+                        let width = img.width;
+                        let height = img.height;
+                        let quality = 0.9;
+                        
+                        const compressIteration = () => {
+                            canvas.width = width;
+                            canvas.height = height;
+                            ctx.drawImage(img, 0, 0, width, height);
+                            
+                            canvas.toBlob((blob) => {
+                                if (blob.size <= maxSize || quality <= 0.1) {
+                                    resolve(blob);
+                                } else {
+                                    // Reduce quality and size further
+                                    quality -= 0.1;
+                                    width = Math.floor(width * 0.9);
+                                    height = Math.floor(height * 0.9);
+                                    compressIteration();
+                                }
+                            }, 'image/jpeg', quality);
+                        };
+                        
+                        compressIteration();
+                    };
+                    
+                    img.onerror = reject;
+                };
+                
+                reader.onerror = reject;
+            });
+        }
+
+        // Grade dropdown logic
+        function updateGradeDropdown(lang) {
+            const stageSelect = document.getElementById(`academic-stage-${lang}`);
+            const gradeContainer = document.getElementById(`grade-container-${lang}`);
+            const gradeDropdown = document.getElementById(`grade-dropdown-${lang}`);
+            const selectedStage = stageSelect.value;
+            
+            const gradeOptionsEN = {
+                'Kindergarten': ['Kindergarten'],
+				'Cambridge Primary': ['Grade 1', 'Grade 2', 'Grade 3', 'Grade 4', 'Grade 5', 'Grade 6'],
+                'Cambridge Lower Secondary': ['Grade 7', 'Grade 8', 'Grade 9'],
+                'Cambridge IGCSE': ['Grade 10', 'Grade 11'],
+                'Cambridge AS/A Level': ['Grade 12', 'Grade 13']
+            };
+            
+            const gradeOptionsPT = {
+				'Kindergarten': ['Kindergarten'],
+                'Cambridge Primary': ['1ª Classe', '2ª Classe', '3ª Classe', '4ª Classe', '5ª Classe', '6ª Classe'],
+                'Cambridge Lower Secondary': ['7ª Classe', '8ª Classe', '9ª Classe'],
+                'Cambridge IGCSE': ['10ª Classe', '11ª Classe'],
+                'Cambridge AS/A Level': ['12ª Classe', '13ª Classe']
+            };
+            
+            gradeDropdown.innerHTML = '';
+            
+            if (selectedStage) {
+                gradeContainer.style.display = 'block';
+                const options = (lang === 'pt') ? gradeOptionsPT[selectedStage] : gradeOptionsEN[selectedStage];
+                
+                if (options) {
+                    const defaultOption = document.createElement('option');
+                    defaultOption.value = '';
+                    defaultOption.textContent = (lang === 'pt') ? '-- Selecionar Classe --' : '-- Select Grade --';
+                    gradeDropdown.appendChild(defaultOption);
+                    
+                    options.forEach((grade) => {
+                        const option = document.createElement('option');
+                        option.value = grade;
+                        option.textContent = grade;
+                        gradeDropdown.appendChild(option);
+                    });
+                    gradeDropdown.required = true;
+                }
+            } else {
+                gradeContainer.style.display = 'none';
+                gradeDropdown.required = false;
+                const defaultOption = document.createElement('option');
+                defaultOption.value = '';
+                defaultOption.textContent = (lang === 'pt') ? '-- Por favor, selecione o nível primeiro --' : '-- Please select stage first --';
+                gradeDropdown.appendChild(defaultOption);
+            }
+        }
+
+        // Form submission
+        document.getElementById('enrollmentForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Validate all steps
+            let allValid = true;
+            for (let i = 1; i <= totalSteps; i++) {
+                if (!validateStep(i)) {
+                    allValid = false;
+                    showStep(i); // Show the step with errors
+                    break;
+                }
+            }
+            
+            if (!allValid) {
+                alert('Please fix all errors before submitting.');
+                return;
+            }
+            
+            // Show loading
+            document.getElementById('loadingOverlay').style.display = 'flex';
+            
+            try {
+                // Collect form data
+                const formData = new FormData(this);
+                
+				
+				// Add authentication token if available
+				const token = localStorage.getItem('auth_token');
+				if (token) {
+				formData.append('auth_token', token);
+			
+                // Replace original files with compressed versions
+                for (const [name, blob] of compressedFiles) {
+                    formData.delete(name);
+                    formData.append(name, blob, `${name}_compressed.jpg`);
+                }
+				 // Submit to Railway backend
+        const response = await fetch('https://your-app.railway.app/api/enrollments/create.php', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            },
+            body: formData
+        });
+        
+        if (!response.ok) {
+            throw new Error('Submission failed');
+        }
+        
+        const result = await response.json();
+        showSuccess(result.enrollmentNumber);
+        
+    } catch (error) {
+        console.error('Submission error:', error);
+        alert('Submission failed: ' + error.message);
+        document.getElementById('loadingOverlay').style.display = 'none';
+    }
+                
+                // Add metadata
+                formData.append('language', currentLanguage);
+                formData.append('submission_date', new Date().toISOString());
+                
+                // Calculate total file size
+                let totalSize = 0;
+                for (const value of formData.values()) {
+                    if (value instanceof File || value instanceof Blob) {
+                        totalSize += value.size;
+                    }
+                }
+                
+                if (totalSize > 1024 * 1024) { // 1MB limit
+                    throw new Error('Total file size exceeds 1MB limit');
+                }
+                
+                // Submit to API
+                const response = await fetch('https://your-railway-api.up.railway.app/api/enrollments', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Submission failed');
+                }
+                
+                const result = await response.json();
+                
+                // Show success
+                showSuccess(result.enrollmentNumber);
+                
+            } catch (error) {
+                console.error('Submission error:', error);
+                alert('Submission failed: ' + error.message);
+                document.getElementById('loadingOverlay').style.display = 'none';
+            }
+        });
+
+        function showSuccess(enrollmentNumber) {
+            const formContainer = document.querySelector('.form-container.active');
+            formContainer.innerHTML = `
+                <div style="background: white; padding: 50px 25px; border-radius: 10px; text-align: center;">
+                    <div style="color: #065f46; font-size: 48px; margin-bottom: 20px;">✓</div>
+                    <h2>Enrollment Submitted Successfully!</h2>
+                    <p style="font-size: 1.2em; margin: 20px 0;">
+                        Your enrollment number is: <strong>${enrollmentNumber}</strong>
+                    </p>
+                    <div style="background: #d1fae5; padding: 20px; border-radius: 10px; margin: 30px 0; text-align: left;">
+                        <p><strong>Next Steps:</strong></p>
+                        <p>1. Save your enrollment number for reference</p>
+                        <p>2. Check your email for confirmation</p>
+                        <p>3. Our team will contact you within 48 hours</p>
+                    </div>
+                    <p>For any questions, contact: admissions@njerenje.com</p>
+                    <button onclick="location.reload()" style="background: #2c5282; color: white; padding: 15px 30px; border: none; border-radius: 5px; cursor: pointer; margin-top: 20px;">
+                        Submit Another Enrollment
+                    </button>
+                </div>
+            `;
+            document.getElementById('loadingOverlay').style.display = 'none';
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Create canvas for image compression (hidden)
+            const canvas = document.createElement('canvas');
+            canvas.style.display = 'none';
+            document.body.appendChild(canvas);
+        });
+		// Admin functionality
+async function loadEnrollments() {
+    const token = localStorage.getItem('auth_token');
+    const response = await fetch('https://your-app.railway.app/api/enrollments/read.php', {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    });
+    
+    const data = await response.json();
+    
+    // Display enrollments in a table
+    let html = '<table class="enrollment-table"><tr>';
+    html += '<th>Enrollment #</th><th>Name</th><th>Grade</th><th>Status</th><th>Actions</th></tr>';
+    
+    data.enrollments.forEach(enrollment => {
+        html += `<tr>
+            <td>${enrollment.enrollment_number}</td>
+            <td>${enrollment.surname}, ${enrollment.forenames}</td>
+            <td>${enrollment.grade}</td>
+            <td><span class="status-${enrollment.status}">${enrollment.status}</span></td>
+            <td>
+                <button onclick="viewEnrollment(${enrollment.id})">View</button>
+                <button onclick="editEnrollment(${enrollment.id})">Edit</button>
+                <button onclick="deleteEnrollment(${enrollment.id})">Delete</button>
+            </td>
+        </tr>`;
+    });
+    
+    html += '</table>';
+    document.getElementById('admin-content').innerHTML = html;
+}
+    </script>
+</body>
+</html>
