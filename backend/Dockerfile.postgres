@@ -1,0 +1,7 @@
+FROM postgres:15-alpine
+
+# Set environment variables
+ENV POSTGRES_DB=njerenje
+ENV POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+
+EXPOSE 5432

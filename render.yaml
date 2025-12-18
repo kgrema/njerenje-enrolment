@@ -1,12 +1,19 @@
 services:
   # PostgreSQL Database
-  - type: postgres
+  - type: pserv
     name: njerenje-db
-    databaseName: njerenje
-    plan: free
-    ipAllowList:
-      - source: 0.0.0.0/0
-        description: everywhere
+    env: docker
+    plan: starter
+    dockerfilePath: ./Dockerfile.postgres
+    envVars:
+      - key: POSTGRES_DB
+        value: njerenje
+      - key: POSTGRES_PASSWORD
+        generateValue: true
+    disk:
+      name: data
+      mountPath: /var/lib/postgresql/data
+      sizeGB: 1
 
   # PHP Backend API
   - type: web
@@ -21,10 +28,22 @@ services:
     startCommand: php -S 0.0.0.0:$PORT -t backend/public
     healthCheckPath: /health.php
     envVars:
-      - key: DATABASE_URL
-        fromDatabase:
+      - key: DB_HOST
+        fromService:
           name: njerenje-db
-          property: connectionString
+          type: pserv
+          property: host
+      - key: DB_PORT
+        value: 5432
+      - key: DB_NAME
+        value: njerenje
+      - key: DB_USER
+        value: postgres
+      - key: DB_PASSWORD
+        fromService:
+          name: njerenje-db
+          type: pserv
+          property: password
       - key: JWT_SECRET
         generateValue: true
       - key: APP_ENV
