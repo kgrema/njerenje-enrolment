@@ -4,7 +4,7 @@ services:
     name: njerenje-db
     env: docker
     plan: starter
-    dockerfilePath: ./Dockerfile.postgres
+    dockerfilePath: ./backend/Dockerfile.postgres
     envVars:
       - key: POSTGRES_DB
         value: njerenje
@@ -39,8 +39,6 @@ services:
         value: njerenje
       - key: DB_USER
         value: postgres
-        key: POSTGRES_PASSWORD
-        generateValue: true
       - key: DB_PASSWORD
         fromService:
           name: njerenje-db
