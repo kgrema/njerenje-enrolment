@@ -2264,7 +2264,7 @@ document.getElementById('dob').addEventListener('blur', function () {
 		// Admin functionality
 async function loadEnrollments() {
     const token = localStorage.getItem('auth_token');
-    const response = await fetch('https://your-app.railway.app/api/enrollments/read.php', {
+    const response = await fetch('https://njerenje-api.onrender.com/api/enroll', {
         headers: {
             'Authorization': `Bearer ${token}`
         }
