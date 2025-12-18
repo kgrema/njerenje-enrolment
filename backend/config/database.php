@@ -3,27 +3,20 @@ class Database {
     private $connection;
 
     public function __construct() {
-        // Get database URL from Render environment
-        $databaseUrl = getenv('DATABASE_URL');
+        $host = getenv('DB_HOST');
+        $port = getenv('DB_PORT') ?: '5432';
+        $dbname = getenv('DB_NAME');
+        $username = getenv('DB_USER');
+        $password = getenv('DB_PASSWORD');
         
-        if ($databaseUrl) {
-            // Parse PostgreSQL connection string
-            $url = parse_url($databaseUrl);
-            
-            $host = $url['host'];
-            $port = $url['port'];
-            $dbname = ltrim($url['path'], '/');
-            $username = $url['user'];
-            $password = $url['pass'];
-            
+        try {
             $dsn = "pgsql:host=$host;port=$port;dbname=$dbname";
-            
-            try {
-                $this->connection = new PDO($dsn, $username, $password);
-                $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            } catch (PDOException $e) {
-                die("Database connection failed: " . $e->getMessage());
-            }
+            $this->connection = new PDO($dsn, $username, $password);
+            $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            error_log("Database connected successfully");
+        } catch (PDOException $e) {
+            error_log("Database connection failed: " . $e->getMessage());
+            $this->connection = null;
         }
     }
 
