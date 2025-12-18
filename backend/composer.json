@@ -1,18 +1,10 @@
 {
-    "name": "centro-educacional-njerenje/api",
-    "description": "Enrollment System API",
+    "name": "njerenje/enrollment-api",
+    "description": "API for Centro Educacional Njerenje enrollment system",
     "type": "project",
     "require": {
         "php": ">=7.4",
         "ext-pdo": "*",
-        "ext-json": "*"
-    },
-    "require-dev": {
-        "ext-pdo_mysql": "*"
-    },
-    "autoload": {
-        "psr-4": {
-            "App\\": "src/"
-        }
+        "ext-pdo_pgsql": "*"
     }
 }
